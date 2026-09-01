@@ -14,12 +14,31 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+# JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY")
+# JWT_ALGORITHM = "HS256"
+# JWT_EXPIRE_MINUTES = int(os.getenv("JWT_EXPIRE_MINUTES", "60"))
+
+# if not JWT_SECRET_KEY:
+#     raise RuntimeError("JWT_SECRET_KEY must be set in .env")
+
+import streamlit as st
+
 JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY")
-JWT_ALGORITHM = "HS256"
-JWT_EXPIRE_MINUTES = int(os.getenv("JWT_EXPIRE_MINUTES", "60"))
 
 if not JWT_SECRET_KEY:
-    raise RuntimeError("JWT_SECRET_KEY must be set in .env")
+    JWT_SECRET_KEY = st.secrets.get("JWT_SECRET_KEY")
+
+JWT_ALGORITHM = "HS256"
+
+JWT_EXPIRE_MINUTES = int(
+    os.getenv(
+        "JWT_EXPIRE_MINUTES",
+        st.secrets.get("JWT_EXPIRE_MINUTES", 60)
+    )
+)
+
+if not JWT_SECRET_KEY:
+    raise RuntimeError("JWT_SECRET_KEY is not configured")
 
 
 def hash_password(plain_password: str) -> str:
