@@ -4,9 +4,18 @@ import psycopg
 from dotenv import load_dotenv
 from auth import hash_password
 
+import streamlit as st
 load_dotenv()
 
+# DATABASE_URL = os.getenv("DATABASE_URL")
+
 DATABASE_URL = os.getenv("DATABASE_URL")
+
+if not DATABASE_URL:
+    DATABASE_URL = st.secrets.get("DATABASE_URL")
+
+if not DATABASE_URL:
+    raise RuntimeError("DATABASE_URL is not configured")
 
 
 def get_db_connection():
