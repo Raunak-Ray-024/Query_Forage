@@ -1,0 +1,12 @@
+# requirements.txt
+pydantic
+langgraph
+langchain
+langchain-groq
+streamlit
+psycopg
+flask
+flask-cors
+python-dotenv
+bcrypt
+pyjwt
